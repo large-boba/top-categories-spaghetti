@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Top 15 Categories — Sales Rank (Jan 2025 – Apr 2026)</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 24px; color: #222; }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  .sub { color: #666; font-size: 13px; margin-bottom: 16px; }
+  .wrap { display: grid; grid-template-columns: 1fr 240px; gap: 24px; align-items: start; }
+  .chart-box { position: relative; height: 600px; }
+  .legend { font-size: 12px; max-height: 600px; overflow-y: auto; }
+  .legend-item { display: flex; align-items: center; gap: 8px; padding: 6px 8px; cursor: pointer; border-radius: 4px; user-select: none; transition: background 0.15s; }
+  .legend-item:hover { background: #f0f0f0; }
+  .legend-item.muted { opacity: 0.45; }
+  .swatch { width: 14px; height: 14px; border-radius: 2px; flex-shrink: 0; }
+  .legend-label { flex: 1; }
+  .hint { font-size: 11px; color: #888; margin-top: 8px; padding: 0 8px; }
+</style>
+</head>
+<body>
+<h1>Top 15 Product Categories — Sales Rank by Period</h1>
+<div class="sub">Jan 2025 – Apr 2026 · Rank 1 = highest sales that period · Hover legend to isolate</div>
+
+<div class="wrap">
+  <div class="chart-box"><canvas id="c"></canvas></div>
+  <div>
+    <div class="legend" id="legend"></div>
+    <div class="hint">Hover a category to highlight. Click to pin/unpin.</div>
+  </div>
+</div>
+
+<script>
+const periods = ["Jan 2025","Feb 2025","Mar 2025","Apr 2025","May 2025","Jun 2025","Jul 2025","Aug 2025","Sep 2025","Oct 2025","Nov 2025","Dec#1 2025","Dec#2 2025","Jan 2026","Feb 2026","Mar 2026","Apr 2026"];
+const datasets = [{"label":"VITAMINS NATURAL HEALTH","data":[1,1,1,1,1,1,2,1,1,1,2,2,1,1,1,1,2],"borderColor":"#1f77b4","backgroundColor":"#1f77b4","borderWidth":2,"pointRadius":0,"pointHoverRadius":4,"spanGaps":false,"tension":0},{"label":"STOMACH & GI","data":[2,2,2,2,6,5,5,6,3,3,3,1,2,2,9,2,3],"borderColor":"#ff7f0e","backgroundColor":"#ff7f0e","borderWidth":2,"pointRadius":0,"pointHoverRadius":4,"spanGaps":false,"tension":0},{"label":"ALLERGY","data":[4,4,6,4,5,6,6,3,2,5,1,4,3,3,2,3,6],"borderColor":"#2ca02c","backgroundColor":"#2ca02c","borderWidth":2,"pointRadius":0,"pointHoverRadius":4,"spanGaps":false,"tension":0},{"label":"COLD & FLU","data":[20,15,19,3,2,2,1,2,5,14,27,33,20,18,null,4,1],"borderColor":"#d62728","backgroundColor":"#d62728","borderWidth":2,"pointRadius":0,"pointHoverRadius":4,"spanGaps":false,"tension":0},{"label":"ANALGESICS","data":[3,3,3,5,4,3,3,4,6,4,5,6,5,5,8,6,5],"borderColor":"#9467bd","backgroundColor":"#9467bd","borderWidth":2,"pointRadius":0,"pointHoverRadius":4,"spanGaps":false,"tension":0},{"label":"SKINCARE","data":[6,10,4,6,3,4,4,5,4,2,4,3,6,9,4,7,4],"borderColor":"#8c564b","backgroundColor":"#8c564b","borderWidth":2,"pointRadius":0,"pointHoverRadius":4,"spanGaps":false,"tension":0},{"label":"SMOKING CESSATION","data":[5,5,5,null,7,8,19,24,9,8,8,22,4,4,5,5,16],"borderColor":"#e377c2","backgroundColor":"#e377c2","borderWidth":2,"pointRadius":0,"pointHoverRadius":4,"spanGaps":false,"tension":0},{"label":"COSMETICS","data":[32,16,31,15,8,12,8,8,7,6,9,8,7,null,3,9,9],"borderColor":"#7f7f7f","backgroundColor":"#7f7f7f","borderWidth":2,"pointRadius":0,"pointHoverRadius":4,"spanGaps":false,"tension":0},{"label":"PERSONAL HEALTH","data":[12,7,12,8,9,7,7,18,11,13,6,19,9,null,6,8,11],"borderColor":"#bcbd22","backgroundColor":"#bcbd22","borderWidth":2,"pointRadius":0,"pointHoverRadius":4,"spanGaps":false,"tension":0},{"label":"BABY","data":[8,19,8,7,11,10,17,7,10,7,15,12,17,15,12,12,7],"borderColor":"#17becf","backgroundColor":"#17becf","borderWidth":2,"pointRadius":0,"pointHoverRadius":4,"spanGaps":false,"tension":0},{"label":"WEIGHT MANAGEMENT","data":[7,6,7,12,null,16,33,9,8,10,10,10,11,19,7,15,8],"borderColor":"#393b79","backgroundColor":"#393b79","borderWidth":2,"pointRadius":0,"pointHoverRadius":4,"spanGaps":false,"tension":0},{"label":"FOOT CARE","data":[9,25,9,10,13,22,11,10,14,23,12,13,21,16,10,10,12],"borderColor":"#637939","backgroundColor":"#637939","borderWidth":2,"pointRadius":0,"pointHoverRadius":4,"spanGaps":false,"tension":0},{"label":"EYE CARE","data":[11,9,13,13,10,24,21,12,18,9,7,9,14,13,null,20,13],"borderColor":"#8c6d31","backgroundColor":"#8c6d31","borderWidth":2,"pointRadius":0,"pointHoverRadius":4,"spanGaps":false,"tension":0},{"label":"ANTISEPTICS","data":[10,22,10,11,19,11,13,11,13,15,17,15,12,14,11,21,21],"borderColor":"#843c39","backgroundColor":"#843c39","borderWidth":2,"pointRadius":0,"pointHoverRadius":4,"spanGaps":false,"tension":0},{"label":"HAIR CARE","data":[17,11,16,9,18,14,16,23,15,18,14,14,19,null,15,26,10],"borderColor":"#7b4173","backgroundColor":"#7b4173","borderWidth":2,"pointRadius":0,"pointHoverRadius":4,"spanGaps":false,"tension":0}];
+const palette = ["#1f77b4","#ff7f0e","#2ca02c","#d62728","#9467bd","#8c564b","#e377c2","#7f7f7f","#bcbd22","#17becf","#393b79","#637939","#8c6d31","#843c39","#7b4173"];
+
+// Store original colors for restore
+datasets.forEach(d => { d._origColor = d.borderColor; });
+
+const ctx = document.getElementById('c').getContext('2d');
+const chart = new Chart(ctx, {
+  type: 'line',
+  data: { labels: periods, datasets: datasets },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode: 'nearest', intersect: false },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => ctx.dataset.label + ': rank ' + ctx.parsed.y
+        }
+      }
+    },
+    scales: {
+      y: {
+        reverse: true,
+        min: 1,
+        max: 33,
+        ticks: { stepSize: 2, callback: v => v },
+        title: { display: true, text: 'Rank (1 = highest)' }
+      },
+      x: { ticks: { maxRotation: 45, minRotation: 45 } }
+    }
+  }
+});
+
+// Custom legend with hover + click pin
+const legendEl = document.getElementById('legend');
+let pinned = null;
+
+function applyHighlight(idx) {
+  chart.data.datasets.forEach((d, i) => {
+    if (idx === null || i === idx) {
+      d.borderColor = d._origColor;
+      d.borderWidth = (i === idx) ? 3 : 2;
+    } else {
+      d.borderColor = '#dcdcdc';
+      d.borderWidth = 1;
+    }
+  });
+  // Reorder so highlighted is on top
+  if (idx !== null) {
+    const order = chart.data.datasets.map((_, i) => i);
+    order.splice(order.indexOf(idx), 1);
+    order.push(idx);
+    chart.data.datasets = order.map(i => datasets[i]);
+    // need to map back original colors after reorder
+  }
+  chart.update('none');
+
+  // Sync legend item styling
+  document.querySelectorAll('.legend-item').forEach((el, i) => {
+    const realIdx = parseInt(el.dataset.idx, 10);
+    el.classList.toggle('muted', idx !== null && realIdx !== idx);
+  });
+}
+
+datasets.forEach((d, i) => {
+  const item = document.createElement('div');
+  item.className = 'legend-item';
+  item.dataset.idx = i;
+  item.innerHTML = '<div class="swatch" style="background:' + d._origColor + '"></div><div class="legend-label">' + d.label + '</div>';
+  item.addEventListener('mouseenter', () => { if (pinned === null) applyHighlight(i); });
+  item.addEventListener('mouseleave', () => { if (pinned === null) applyHighlight(null); });
+  item.addEventListener('click', () => {
+    if (pinned === i) { pinned = null; applyHighlight(null); }
+    else { pinned = i; applyHighlight(i); }
+  });
+  legendEl.appendChild(item);
+});
+</script>
+</body>
+</html>
